@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const PadelTeamSchema = mongoose.Schema({
-    teamName: {
+const PadelMatchStatSchema = mongoose.Schema({
+    teamOneId: {
         type: String,
         required: true
     },
-    matchesPlayed: {
-        type: Number,
+    teamTwoId: {
+        type: String,
         required: true
     },
     breakPoints: {
@@ -49,10 +49,6 @@ const PadelTeamSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    totalGamesWonPercentage: {
-        type: Number,
-        required: true
-    },
     totalSetsWon: {
         type: Number,
         required: true
@@ -62,14 +58,6 @@ const PadelTeamSchema = mongoose.Schema({
         required: true
     },
     firstServePointsWonPercentage: {
-        type: Number,
-        required: true
-    },
-    secondServePointsWon: {
-        type: Number,
-        required: true
-    },
-    secondServePointsWonPercentage: {
         type: Number,
         required: true
     },
@@ -83,4 +71,4 @@ const PadelTeamSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('PadelTeam', PadelTeamSchema);
+module.exports = mongoose.model('PadelMatchStat', PadelMatchStatSchema);

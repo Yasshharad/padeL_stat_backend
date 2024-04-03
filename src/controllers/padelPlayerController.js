@@ -101,7 +101,6 @@ exports.getAllPadelPlayerStats = async (req, res) => {
 
         res.json(padelPlayerStats);
     } catch (error) {
-        // If an error occurs, respond with the error message
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: "Unable to find any player" });
     }
 };

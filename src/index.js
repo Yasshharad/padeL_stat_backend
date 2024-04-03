@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const padelTeamRoutes = require('./routes/padelTeamRoutes');
 const padelPlayerRoutes = require('./routes/padelPlayerRoutes');
 const ConnectDB = require('./database/connection');
+const padelMatchStatRoutes = require('./routes/padelMatchStatRoutes');
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 // Routes
 app.use('/api/v1/padel-team-stat', padelTeamRoutes);
 app.use('/api/v1/padel-player-stat', padelPlayerRoutes);
+app.use('/api/v1/padel-match-stat', padelMatchStatRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

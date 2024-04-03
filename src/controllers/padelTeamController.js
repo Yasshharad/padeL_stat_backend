@@ -156,6 +156,6 @@ exports.getAllPadelTeamStats = async (req, res) => {
 
         res.json(formattedPadelTeamStats);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: "Unable to find any team" });
     }
 };
