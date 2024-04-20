@@ -2,18 +2,30 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 const passport = require("passport");
-
-// initial google ouath login
-router.get("/google",passport.authenticate("google",{scope:["profile","email"]}));
+const axios = require("axios");
 
 router.get("/google/callback",passport.authenticate("google",{
     successRedirect:"http://localhost:3000",
     failureRedirect:"http://localhost:3000/login"
 }))
 
+// router.get("/google",passport.authenticate("google",{scope:["profile","email"]}));
+router.get("/google", async(req, res) =>{
+    try{
+        const response = await axios.get("https://accounts.google.com/o/oauth2/v2/auth",{
+            params: req.query
+        })
+         
+        console.log(response);
+        res.send(response);
+    }catch(error){
+        res.status(500).json({error: "Internal Server error."});
+    }
+})
+
 router.get("/login/success",async(req,res)=>{
     if(req.user){
-        res.status(200).json({error: false, message:"Successfully logged in.", user:req.user})
+        res.status(200).json({message:"Successfully logged in.", user:{...req.user}})
     }else{
         res.status(403).json({error:true, message:"Not Authorized"})
     }
