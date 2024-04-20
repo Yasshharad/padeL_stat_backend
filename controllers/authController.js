@@ -37,7 +37,15 @@ const signup = async (req, res) => {
   try {
     // Extract user data from request body
     const { name, email, phoneNumber, password } = req.body;
-
+    //  Check if user already exists by email, name, or phoneNumber
+    const existingUser = await User.findOne({ $or: [{ email }, { name }] });
+    if (existingUser) {
+      if (existingUser.email === email) {
+        return res.status(400).json({ error: 'Email is already registered' });
+      } else{
+        return res.status(400).json({ error: 'Name is already taken' });
+      }
+    }
     // Check if password meets the minimum length requirement
     if (password.length < 8) {
       return res.status(400).json({ error: 'Password should be at least 8 characters long' });
