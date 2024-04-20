@@ -11,7 +11,8 @@ router.get("/google/callback",passport.authenticate("google",{
     failureRedirect:"http://localhost:3000/login"
 }))
 
-router.get("/sucess",async(req,res)=>{
+router.get("/login/success",async(req,res)=>{
+
     if(req.user){
         res.status(200).json({message:"user Login",user:req.user})
     }else{
