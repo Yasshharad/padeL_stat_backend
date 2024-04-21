@@ -18,7 +18,7 @@ const app = express();
 // setup session
 app.use(session({
   secret: process.env.SECRET_SESSION,
-  resave: false,
+  resave: true,
   saveUninitialized: true
 }));
 
