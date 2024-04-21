@@ -52,7 +52,7 @@ const googleAuthConfig = (passport) => {
         new OAuth2Strategy({
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
-            callbackURL: "/api/auth/google/callback",
+            callbackURL: "/google/callback",
             scope: ["profile", "email"]
         },
         async (accessToken, refreshToken, profile, done) => {
