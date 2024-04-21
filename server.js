@@ -18,9 +18,9 @@ const app = express();
 // setup session
 app.use(session({
   secret: process.env.SECRET_SESSION,
-  resave:false,
-  saveUninitialized:true
-}))
+  resave: false,
+  saveUninitialized: true
+}));
 
 // Passport middleware
 app.use(passport.initialize());
