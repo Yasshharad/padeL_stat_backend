@@ -2,7 +2,6 @@ const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const dotenv = require('dotenv');
 const User = require('./models/User');
 const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken');
 dotenv.config();
 
 // Function to generate a random password
@@ -92,14 +91,7 @@ const googleAuthConfig = (passport) => {
                     await sendEmail(profile.emails[0].value, 'Welcome to stat.', welcomeEmailText);
                 }
     
-                // Generate JWT token
-                const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
-                // Return user data and token
-                return done(null, {
-                    user,
-                    token
-                });
+                return done(null, user);
             } catch (error) {
                 return done(error, null);
             }
