@@ -18,9 +18,7 @@ router.get("/login/success", async (req, res) => {
           message: "successfull",
           user: req.user
         });
-      } else {
-        res.status(400).json({ message: "Not Authorized" });
-    }
+      }
 });
 
 
