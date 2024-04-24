@@ -12,7 +12,6 @@ router.get("/google/callback",passport.authenticate("google",{
 }))
 
 router.get("/login/success", async (req, res) => {
-    console.log("req:" + req.user);
     if (req.user) {
         res.status(200).json({ message: "user Login", user: req.user });
     } else {
