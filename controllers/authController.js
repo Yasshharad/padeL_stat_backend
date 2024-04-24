@@ -131,7 +131,7 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     // Send email with reset password link
-    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
+    const resetLink = `https://statapp.in/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
     const subject = 'Reset Your Password';
     const message = `Dear ${user.name},\n\nPlease click on the following link to reset your password:\n\n${resetLink}\n\nRegards,\nstat. Team`;
     await sendEmail(email, subject, message);
