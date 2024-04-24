@@ -57,11 +57,20 @@ const googleAuthConfig = (passport) => {
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                let user = await User.findOne({ email: profile.emails[0].value }).maxTimeMS(30000);
-
+                let user = await User.findOne({
+                    $or: [
+                        { googleId: profile.id },
+                        { email: profile.emails[0].value }
+                    ]
+                }).maxTimeMS(30000);
+    
                 if (!user) {
                     // Generate userId for new user
-                    const userId = profile.displayName.replace(/\s+/g, '') + '_' + Math.random().toString(36).substr(2, 5);
+                    const initials = profile.displayName.split(' ').map(namePart => namePart.charAt(0)).join('').toUpperCase();
+                    const existingUsersCount = await User.countDocuments({ userId: { $regex: new RegExp('^' + initials) } });
+                    const paddedNumber = (existingUsersCount + 1).toString().padStart(6, '0');
+                    const userId = initials + paddedNumber;
+    
                     const randomPassword = generateRandomPassword();
                     const randomPhoneNumber = generateRandomPhoneNumber();
                     // User doesn't exist, create a new user
@@ -74,14 +83,14 @@ const googleAuthConfig = (passport) => {
                         password: randomPassword,
                         userId
                     });
-
+    
                     await user.save();
-
+    
                     // Send welcome email to the user only if it's a new user
                     const welcomeEmailText = `Hi Champ,\n\nWelcome to stat.\nWe are all things sports!\n\nYour UserID: ${userId}\n\nRegards,\nstat. Team`;
                     await sendEmail(profile.emails[0].value, 'Welcome to stat.', welcomeEmailText);
                 }
-
+    
                 return done(null, user);
             } catch (error) {
                 return done(error, null);
@@ -89,6 +98,7 @@ const googleAuthConfig = (passport) => {
         }
     )
 );
+    
 
 passport.serializeUser((user, done) => {
     done(null, user);
