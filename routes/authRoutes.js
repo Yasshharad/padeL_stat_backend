@@ -7,8 +7,8 @@ const passport = require("passport");
 router.get("/google",passport.authenticate("google",{scope:["profile","email"]}));
 
 router.get("/google/callback",passport.authenticate("google",{
-    successRedirect:"http://localhost:3000",
-    failureRedirect:"http://localhost:3000/login"
+    successRedirect:"https://statapp.in/",
+    failureRedirect:"https://statapp.in/login"
 }))
 
 router.get("/login/success", async (req, res) => {
@@ -27,7 +27,7 @@ router.get("/login/success", async (req, res) => {
 router.get('/logoutGoogle', function(req, res, next){
     req.logout();
     setTimeout(() => {
-        res.redirect('http://localhost:3000');
+        res.redirect('https://statapp.in');
     }, 3000);
   });
 
