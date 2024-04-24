@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const passport = require('passport');
-const session = require("express-session");
+// const session = require("express-session");
+const cookieSession = require("cookie-session");
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const padelTeamRoutes = require('./routes/padelTeamRoutes');
@@ -15,12 +16,16 @@ const googleAuthConfig = require('./passport');
 dotenv.config();
 const app = express();
 
-// setup session
-app.use(session({
-  secret: process.env.SECRET_SESSION,
-  resave: false,
-  saveUninitialized: true
-}));
+// // setup session
+// app.use(session({
+//   secret: process.env.SECRET_SESSION,
+//   resave: false,
+//   saveUninitialized: true
+// }));
+
+app.use(
+  cookieSession({ name: "session", keys: [process.env.SECRET_SESSION], maxAge: 24 * 60 * 60 * 100 })
+);
 
 // Passport middleware
 app.use(passport.initialize());
