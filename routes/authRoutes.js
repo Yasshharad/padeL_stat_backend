@@ -25,10 +25,14 @@ router.get("/login/success", async (req, res) => {
 
 
 router.get('/logoutGoogle', function(req, res, next){
-    req.logout();
-    setTimeout(() => {
+    req.logout(function(err) {
+      if (err) {
+        return next(err);
+      }
+      setTimeout(() => {
         res.redirect('https://statapp.in');
     }, 3000);
+    });
   });
 
 // Signup route
