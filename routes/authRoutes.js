@@ -29,9 +29,7 @@ router.get('/logoutGoogle', function(req, res, next){
       if (err) {
         return next(err);
       }
-      setTimeout(() => {
-        res.redirect('https://statapp.in');
-    }, 3000);
+      res.redirect('https://statapp.in');
     });
   });
 
