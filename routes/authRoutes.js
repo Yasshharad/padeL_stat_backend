@@ -12,7 +12,7 @@ router.get("/google/callback",passport.authenticate("google",{
 }))
 
 router.get("/login/success", async (req, res) => {
-    if (req) {
+    if (req.user) {
         res.status(200).json({
           success: true,
           message: "successfull",
@@ -25,12 +25,10 @@ router.get("/login/success", async (req, res) => {
 
 
 router.get('/logoutGoogle', function(req, res, next){
-    req.logout(function(err) {
-      if (err) {
-        return next(err);
-      }
-      res.redirect('https://statapp.in');
-    });
+    req.logout();
+    setTimeout(() => {
+        res.redirect('https://statapp.in');
+    }, 3000);
   });
 
 // Signup route
