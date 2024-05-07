@@ -12,11 +12,11 @@ router.get("/google/callback",passport.authenticate("google",{
 }))
 
 router.get("/login/success", async (req, res) => {
-    if (req.user) {
+    if (req.data) {
         res.status(200).json({
           success: true,
           message: "successfull",
-          user: req.user
+          user: req.data
         });
       } else {
         res.status(400).json({ message: "Not Authorized" });
