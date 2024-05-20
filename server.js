@@ -3,26 +3,23 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const passport = require('passport');
-// const session = require("express-session");
 const cookieSession = require("cookie-session");
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const padelTeamRoutes = require('./routes/padelTeamRoutes');
 const padelPlayerRoutes = require('./routes/padelPlayerRoutes');
 const padelMatchStatRoutes = require('./routes/padelMatchStatRoutes');
+const matchRoutes = require('./routes/matchRoutes');
 const errorMiddleware = require('./middleware/errorMiddleware');
 const googleAuthConfig = require('./passport');
 
 dotenv.config();
 const app = express();
 
-// // setup session
-// app.use(session({
-//   secret: process.env.SECRET_SESSION,
-//   resave: false,
-//   saveUninitialized: true
-// }));
+// Body parser middleware
+app.use(express.json());
 
+// setup session
 app.use(
   cookieSession({ name: "session", keys: [process.env.SECRET_SESSION], maxAge: 24 * 60 * 60 * 100 })
 );
@@ -37,9 +34,6 @@ app.use(cors({
   credentials: true, // Allow cookies to be sent from the client
 }));
 
-// Body parser middleware
-app.use(express.json());
-
 // Google OAuth configuration
 googleAuthConfig(passport);
 
@@ -51,6 +45,7 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes); 
+app.use('/api/matches', matchRoutes);
 app.use('/api/v1/padel-team-stat', padelTeamRoutes);
 app.use('/api/v1/padel-player-stat', padelPlayerRoutes);
 app.use('/api/v1/padel-match-stat', padelMatchStatRoutes);
