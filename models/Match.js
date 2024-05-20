@@ -28,7 +28,7 @@ const matchSchema = new mongoose.Schema({
     format: {
         type: String,
         required: true,
-        enum: ['Single', 'Double']
+        enum: ['Singles', 'Doubles']
     },
     matchSetsScore: [matchSetSchema],
     result: {
